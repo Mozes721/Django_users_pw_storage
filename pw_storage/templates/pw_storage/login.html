@@ -1,0 +1,22 @@
+{% extends 'pw_storage/base.html' %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<form>
+  <div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">@</span>
+    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+
+</div>
+
+
+<div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password">
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

@@ -20,19 +20,19 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Register</a>
+          <a class="nav-link" href="{% url 'register-page' %}">Register</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
+          <a class="nav-link" href="{% url 'login-page' %}">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Signout</a>
+          <a class="nav-link" href="{% url 'logged_out-page' %}">Logout</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             User Options
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
             <li><a class="dropdown-item" href="#">Add new pw domain</a></li>
             <li><a class="dropdown-item" href="#">Search pw</a></li>
             <li><a class="dropdown-item" href="#">Check all</a></li>
@@ -42,6 +42,11 @@
     </div>
   </div>
 </nav>
+<div class="container">
+  {% block content %}
+  {% endblock %}
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 
   </body>
