@@ -15,6 +15,7 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+    
 class User_pw(models.Model):
     headline = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
