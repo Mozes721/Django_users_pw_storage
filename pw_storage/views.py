@@ -1,16 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
-import pymongo
 import urllib, hashlib
 from .models import User
 
-client = pymongo.MongoClient("mongodb://localhost:27017/?")
-# Create your views here.
-
-#databases
-users = client.get_database('users_stored')
-user_pw_storage = client.get_database('pw_storage_user')
 
 def home_page(request):
     return render(request, 'pw_storage/home.html')
