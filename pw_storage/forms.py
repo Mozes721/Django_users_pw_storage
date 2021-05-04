@@ -6,7 +6,7 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__'
-
+        
         # widgets = {
         #     'username': forms.TextInput(attrs={'class': 'form-control'}),
         #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
