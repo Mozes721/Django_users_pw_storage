@@ -23,6 +23,7 @@ def register_page(request):
     context = {'form': user_form}
     return render(request, 'pw_storage/register.html', context)
 
+
 def login_page(request):
     login_form = LoginForm()
     if request.method == 'POST':
