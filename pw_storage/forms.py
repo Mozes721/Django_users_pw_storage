@@ -14,7 +14,7 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password Confirmation")
     gender = forms.CharField(widget=forms.RadioSelect(choices=GENDER_CHOICES), max_length=6, required=True)
-
+ 
     class Meta:
         model = User
         fields = ("username", "firstname", "lastname", "email", 
