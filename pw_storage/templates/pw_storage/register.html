@@ -8,7 +8,7 @@
 <form method="POST">
   {% csrf_token %} 
   <fieldset class="form-group">
-    {{ register_form.as_p }}
+    {{ form.as_p }}
   </fieldset>
   <div class="form-check">
       <input type="checkbox" class="form-check-input" id="checkchecked" required="true">

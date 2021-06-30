@@ -1,8 +1,9 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from django.forms import fields 
 from .models import User, User_pw 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
 class RegistrationForm(forms.ModelForm):
@@ -34,19 +35,35 @@ class RegistrationForm(forms.ModelForm):
             raise ValidationError("Password didn't match")
         return password1
 
-class LoginForm(forms.ModelForm):
-    username = forms.CharField()
+    def login(self):
+        username = self.cleaned_data.get('username')
+        password1 = self.cleaned_data.get('password1')
+        
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=15, label="Username")
     password = forms.CharField(widget=forms.PasswordInput)
 
-    def clean(self, *args, **kwargs):
-        username = self.cleaned_data.get("username")
-        password = self.cleaned_data.get("password")
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if not user:
-                raise forms.ValidationError("Username does not exists")
-            if user.checkpassword(password):
-                raise forms.ValidationError("Wrong Password")
+    def clean(self):
+       username = self.cleaned_data.get('username')
+       password = self.cleaned_data.get('password') 
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        qs = User.objects.filter(username__iexact=username)
+        if not qs.exists():
+            raise forms.ValidationError("This is an invalid username")
+        return username
+
+    # def clean_data(self):
+    #     username = self.cleaned_data.get("username")
+    #     password = self.cleaned_data.get("password1")
+    #     if username and password:
+    #         user = authenticate(username=username, password=password)
+    #         if not user:
+    #             raise forms.ValidationError("Username does not exists")
+    #         if user.checkpassword(password):
+    #             raise forms.ValidationError("Wrong Password")
                 
     class Meta:
         model = User
