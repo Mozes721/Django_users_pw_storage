@@ -38,7 +38,7 @@ class RegistrationForm(forms.ModelForm):
     def login(self):
         username = self.cleaned_data.get('username')
         password1 = self.cleaned_data.get('password1')
-        
+       
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=15, label="Username")
