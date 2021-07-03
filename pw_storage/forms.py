@@ -1,12 +1,11 @@
-from django.forms import ModelForm, Form
+from django.forms import ModelForm
 from django.forms import fields 
 from .models import User, User_pw 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
-class RegistrationForm(forms.ModelForm):
+class RegistrationForm(forms.Form):
     GENDER_CHOICES = [('male', 'male'), ('female','female'), ('other','other')]
     username = forms.CharField(max_length=15, label="Username")
     firstname = forms.CharField(max_length=15,label="Firstname")
@@ -15,11 +14,17 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Password")
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password Confirmation")
     gender = forms.CharField(widget=forms.RadioSelect(choices=GENDER_CHOICES), max_length=6, required=True)
- 
+
     class Meta:
-        model = User
-        fields = ("username", "firstname", "lastname", "email", 
-     "password", "password1","gender")
+        fields = '__all__'
+        # widgets = {
+        #     'username': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'email': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'password': forms.CharField(attrs={'class': 'form-control'}),
+        #     'password2': forms.CharField(attrs={'class': 'form-control'}),
+        #     'gender': forms.Select(attrs={'class': 'form-check form-check-inline'}),
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -35,39 +40,50 @@ class RegistrationForm(forms.ModelForm):
             raise ValidationError("Password didn't match")
         return password1
 
-    def login(self):
-        username = self.cleaned_data.get('username')
-        password1 = self.cleaned_data.get('password1')
-       
-
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=15, label="Username")
-    password = forms.CharField(widget=forms.PasswordInput)
-
-    def clean(self):
-       username = self.cleaned_data.get('username')
-       password = self.cleaned_data.get('password') 
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={
+        "class": "form-control"
+    }))
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "id": "user-password"
+            }
+        )
+    )
+    # def clean(self):
+    #     data = super().clean()
+    #     username = data.get("username")
+    #     password = data.get("password")
 
     def clean_username(self):
-        username = self.cleaned_data.get('username')
-        qs = User.objects.filter(username__iexact=username)
+        username = self.cleaned_data.get("username")
+        qs = User.objects.filter(username=username) # thisIsMyUsername == thisismyusername
         if not qs.exists():
-            raise forms.ValidationError("This is an invalid username")
+            raise forms.ValidationError("This is an invalid user.")
+        if qs.count() != 1:
+            raise forms.ValidationError("This is an invalid user.")
         return username
 
-    # def clean_data(self):
-    #     username = self.cleaned_data.get("username")
-    #     password = self.cleaned_data.get("password1")
-    #     if username and password:
-    #         user = authenticate(username=username, password=password)
-    #         if not user:
-    #             raise forms.ValidationError("Username does not exists")
-    #         if user.checkpassword(password):
-    #             raise forms.ValidationError("Wrong Password")
+# class LoginForm(forms.ModelForm):
+#     username = forms.CharField()
+#     password = forms.CharField(widget=forms.PasswordInput)
+
+#     def clean(self, *args, **kwargs):
+#         username = self.cleaned_data.get("username")
+#         password = self.cleaned_data.get("password")
+#         if username and password:
+#             user = authenticate(username=username, password=password)
+#             if not user:
+#                 raise forms.ValidationError("Username does not exists")
+#             if user.checkpassword(password):
+#                 raise forms.ValidationError("Wrong Password")
                 
-    class Meta:
-        model = User
-        fields = ("username", "password")
+#     class Meta:
+#         model = User
+#         fields = ('username', 'password')
 
 class User_pw_form(ModelForm):
     class Meta:

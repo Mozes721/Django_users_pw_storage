@@ -13,69 +13,44 @@ def home_page(request):
     return render(request, 'pw_storage/home.html')
 
 def register_page(request):
-    form = RegistrationForm()
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.GET)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            if User.objects.filter(username=form.cleaned_data['username']).count() or User.objects.filter(email=form.cleaned_data['email']).count():
-                return render(request, 'pw_storage/home.html')
-            else:
-                form.save()
-                return render(request, 'pw_storage/user_storage.html')
-    context = {'form': form}
-    return render(request, 'pw_storage/register.html', context)
+    form = RegistrationForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        firstname = form.cleaned_data.get('firstname')
+        lastname = form.cleaned_data.get('lastname')
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        password1 = form.cleaned_data.get('password1')
+        gender = form.cleaned_data.get('gender')
+        try:
+            user = User.objects.create_user(request, username=username, firstname=firstname, lastname=lastname, email=email, password=password, gender=gender)
+        except:
+            user = None 
+        if user != None:
+            return redirect("home")
+        else:
+            request.session['register_error'] = 1
+        return render(request, '.pw_storage/user_storage.html')
+    return render(request, 'pw_storage/register.html', {'form': form})
 
 
 def login_page(request):
-    form = LoginForm()
-    if request.method == 'POST':
-        form = LoginForm(request.POST, request.GET)
-        if form.is_valid():
-            return render(request, 'pw_storage/user_storage.html')
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user != None:
+            # user is valid and active -> is_active
+            # request.user == user
+            login(request, user)
+            return redirect("user_storage")
         else:
-            messages.error(request, "Please enter correct username and password")
-    return render(request = request,
-                     template_name = "pw_storage/login.html",
-                     context={ "login_form": form })
-
-    #     if form.is_valid():
-    #         if User.objects.filter(username=form.cleaned_data['username']).count():
-    #             print(User.objects.filter(username=form.cleaned_data['username']).count())
-    #             if User.objects.filter(password=form.cleaned_data['password']).count():
-    #                 print(User.objects.filter(password=form.cleaned_data['password']).count())
-    #                 return render(request, 'pw_storage/user_storage.html')
-    #             else:
-    #                 context = {'login_form': form}
-    #                 return render(request, 'pw_storage/login.html', context)
-    #         return render(request, 'pw_storage/login.html')
-    # context = {'login_form': form}
-    # return render(request, 'pw_storage/login.html', context)
-
-# def login_page(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request.POST, request.GET)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             print(username)
-#             print(password)
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 messages.info(request, f"You are now logged in as {username}")
-#                 return redirect('/')
-#             else:
-#                 messages.error(request, "Invalid username or password.")
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#     form = AuthenticationForm()
-#     return render(request = request,
-#                     template_name = "pw_storage/login.html",
-#                     context={"form":form})
+            # attempt = request.session.get("attempt") or 0
+            # request.session['attempt'] = attempt + 1
+            # return redirect("/invalid-password")
+            request.session['invalid_user'] = 1 # 1 == True
+    return render(request, "login.html", {"form": form})
 
 
 def logged_out_page(request):
