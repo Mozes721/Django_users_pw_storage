@@ -7,11 +7,17 @@
 <br>
 <br>
 <div class="form-group">
-<form method="POST">
+<form method="POST" >
   {% csrf_token %}
-  {{ form.as_p }}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{{ form.as_p }}
 <button type="submit" class="btn btn-primary">Login</button>
 </form>
 </div>
 {% endblock %}
- 
