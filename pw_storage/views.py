@@ -24,10 +24,10 @@ def register_page(request):
             user = None
         if user != None:
             login(request, user)
-            return redirect("/")
+            return redirect(user_pw_all)
         else:
             request.session['register_error'] = 1 # 1 == True
-    return render(request, "pw_storage/register.html", {"form": form})
+    return render(request, "pw_storage/user_account/register.html", {"form": form})
 
 
 def login_page(request):
@@ -40,17 +40,28 @@ def login_page(request):
             # user is valid and active -> is_active
             # request.user == user
             login(request, user)
-            return redirect("/")
+            return redirect(user_pw_all)
         else:
             # attempt = request.session.get("attempt") or 0
             # request.session['attempt'] = attempt + 1
             # return redirect("/invalid-password")
             request.session['invalid_user'] = 1 # 1 == True
             messages.warning(request, 'Please enter the right password!')
-    return render(request, "pw_storage/login.html", {"form": form})
+    return render(request, "pw_storage/user_account/login.html", {"form": form})
   
 
 def logged_out_page(request):
     logout(request)
     # request.user == Anon User
-    return redirect("pw_storage/logged_out")
+    return render(request, "pw_storage/user_account/logged_out.html")
+
+def user_pw_all(request):
+    return render(request, "pw_storage/user_password/user_pw_all.html")
+
+def user_pw_add(request):
+    return render(request, "pw_storage/user_password/user_pw_add.html")
+
+def user_pw_search(request):
+    return render(request, "pw_storage/user_password/user_pw_search.html")
+
+
