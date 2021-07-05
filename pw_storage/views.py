@@ -48,11 +48,11 @@ def login_page(request):
             request.session['invalid_user'] = 1 # 1 == True
             messages.warning(request, 'Please enter the right password!')
     return render(request, "pw_storage/user_account/login.html", {"form": form})
-  
+   
 
 def logged_out_page(request):
     logout(request)
-    # request.user == Anon User
+   
     return render(request, "pw_storage/user_account/logged_out.html")
 
 def user_pw_all(request):
