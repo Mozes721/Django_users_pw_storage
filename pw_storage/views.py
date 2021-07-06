@@ -8,8 +8,6 @@ from .forms import LoginForm, RegisterForm
 
 User = get_user_model()
 
-if User.is_authenticated():
-    user.request.user:
 
 
 def home_page(request):
