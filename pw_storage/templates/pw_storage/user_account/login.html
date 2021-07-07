@@ -2,6 +2,16 @@
 
 {% block content %}
 
+{% if messages %}
+<div class="alert alert-primary" role="alert" >
+  {% for message in messages %}
+     {{ message }}
+    {% endfor %}
+</div>
+<br>
+{% endif %}
+
+
 <h1>Login</h1>
 
 <br>

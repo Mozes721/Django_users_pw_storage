@@ -11,10 +11,14 @@ User = get_user_model()
 
 
 def home_page(request):
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     return render(request, 'pw_storage/home.html')
 
 def register_page(request):
     form = RegisterForm(request.POST or None)
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     if form.is_valid():
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
@@ -34,6 +38,8 @@ def register_page(request):
 
 def login_page(request):
     form = LoginForm(request.POST or None)
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -58,14 +64,20 @@ def logged_out_page(request):
     g
 @login_required(login_url=login_page)
 def user_pw_all(request):
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     return render(request, "pw_storage/user_password/user_pw_all.html")
 
 @login_required(login_url=login_page)
 def user_pw_add(request):
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     return render(request, "pw_storage/user_password/user_pw_add.html")
 
 @login_required(login_url=login_page)
 def user_pw_search(request):
+    if request.user.is_authenticated:
+        messages.success(request, "Logged in as %s" % request.user)
     return render(request, "pw_storage/user_password/user_pw_search.html")
 
 

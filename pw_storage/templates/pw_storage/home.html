@@ -2,6 +2,15 @@
 
 {% block content %}
 
+{% if messages %}
+<div class="alert alert-primary" role="alert" >
+  {% for message in messages %}
+     {{ message }}
+    {% endfor %}
+</div>
+<br>
+{% endif %}
+
 <div class="container-fluid">
   <h1 class="display-3">Store your passwords here!</h1>
   <br>
