@@ -1,13 +1,12 @@
 from django import forms
+from django.db import models
 from django.contrib.auth import get_user_model
-from django.forms import ModelForm, Form, models
-
+# from django.forms import ModelForm
+from .models import User_pw
 non_allowed_usernames = ['abc']
 # check for unique email & username
 
 User = get_user_model()
-
-# GENDER_CHOICES = (('male', 'male'), ('female','female'), ('other','other'))
 
 class RegisterForm(forms.Form):
     username = forms.CharField()
@@ -86,7 +85,7 @@ class LoginForm(forms.Form):
 
 
 
-# class User_pw_form(ModelForm):
-#     class Meta:
-#         model = User_pw
-#         fields = '__all__'
+class User_pw_form(forms.Form):
+    class Meta:
+        model = User_pw
+        fields = '__all__'

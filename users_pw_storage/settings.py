@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'pw_storage.apps.PwStorageConfig',
+    # 'pw_storage.apps.PwStorageConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'bootstrapform',
     'crispy_forms',
+    'pw_storage',
 ]
 
 MIDDLEWARE = [
