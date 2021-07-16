@@ -12,14 +12,13 @@ User = get_user_model()
 
 
 def home_page(request):
-    if request.user.is_authenticated:
-        messages.success(request, "Logged in as %s" % request.user)
     return render(request, 'pw_storage/home.html')
 
 def register_page(request):
     form = RegisterForm(request.POST or None)
     if request.user.is_authenticated:
-        messages.success(request, "Logged in as %s" % request.user)
+        messages.success(request, "You are already logged in as  %s " % request.user + " you can't register or login ones already logged in!")
+        return redirect(home_page)
     if form.is_valid():
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
@@ -39,7 +38,8 @@ def register_page(request):
 def login_page(request):
     form = LoginForm(request.POST or None)
     if request.user.is_authenticated:
-        messages.success(request, "Logged in as %s" % request.user)
+        messages.success(request, "You are already logged in as %s" % request.user + " you can't register or login ones already logged in!")
+        return redirect(home_page)
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -65,6 +65,7 @@ def user_pw_all(request):
     if not logged_in_user_pws:
         message = 'Please create a password'
         return render(request, "pw_storage/user_password/user_pw_all.html", {'no_pws': message})
+    
     return render(request, "pw_storage/user_password/user_pw_all.html", {'pws': logged_in_user_pws})
 
 @login_required(login_url=login_page)
