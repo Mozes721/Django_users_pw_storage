@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .forms import LoginForm, RegisterForm
+from .models import User_pw
 
 User = get_user_model()
 
@@ -23,7 +24,6 @@ def register_page(request):
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password1")
-        password2 = form.cleaned_data.get("password2")
         try:
             user = User.objects.create_user(username, email, password)
         except:
@@ -45,15 +45,9 @@ def login_page(request):
         password = form.cleaned_data.get("password")
         user = authenticate(request, username=username, password=password)
         if user != None:
-            # user is valid and active -> is_active
-            # request.user == user
             login(request, user)
             return redirect(user_pw_all)
         else:
-            # attempt = request.session.get("attempt") or 0
-            # request.session['attempt'] = attempt + 1
-            # return redirect("/invalid-password")
-            request.session['invalid_user'] = 1 # 1 == True
             messages.warning(request, 'Please enter the right password!')
     return render(request, "pw_storage/user_account/login.html", {"form": form})
   
@@ -61,12 +55,18 @@ def login_page(request):
 def logged_out_page(request):
     logout(request)
     return render(request, "pw_storage/user_account/logged_out.html")
-    g
+    
 @login_required(login_url=login_page)
 def user_pw_all(request):
     if request.user.is_authenticated:
         messages.success(request, "Logged in as %s" % request.user)
-    return render(request, "pw_storage/user_password/user_pw_all.html")
+    logged_in_user = request.user  
+    logged_in_user_pws = User_pw.objects.filter(user=logged_in_user)
+    if not logged_in_user_pws:
+        message = 'Please create a password'
+        return render(request, "pw_storage/user_password/user_pw_all.html", {'no_pws': message})
+    
+    return render(request, "pw_storage/user_password/user_pw_all.html", {'pws': logged_in_user_pws})
 
 @login_required(login_url=login_page)
 def user_pw_add(request):

@@ -4,9 +4,9 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
-# Create your models here.
 class User_pw(models.Model):
     PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
     title = models.CharField(max_length=100)
@@ -16,4 +16,4 @@ class User_pw(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
     
     def __str__(self):
-        return str(self.title)
+        return str(self.user)
