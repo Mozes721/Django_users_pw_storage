@@ -65,7 +65,6 @@ def user_pw_all(request):
     if not logged_in_user_pws:
         message = 'Please create a password'
         return render(request, "pw_storage/user_password/user_pw_all.html", {'no_pws': message})
-    test
     return render(request, "pw_storage/user_password/user_pw_all.html", {'pws': logged_in_user_pws})
 
 @login_required(login_url=login_page)
