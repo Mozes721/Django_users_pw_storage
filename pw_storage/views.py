@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 # Create your views here.
 from .forms import LoginForm, RegisterForm
 from .models import User_pw
@@ -78,6 +78,21 @@ def user_pw_add(request):
 def user_pw_search(request):
     if request.user.is_authenticated:
         messages.success(request, "Logged in as %s" % request.user)
-    return render(request, "pw_storage/user_password/user_pw_search.html")
+    logged_in_user = request.user  
+    logged_in_user_pws = User_pw.objects.filter(user=logged_in_user)
+    if request.method == "POST":
+        searched = request.POST.get("password_search", "")
+        # user_pw = logged_in_user_pws.filter(name__contains=searched)
+        users_pws = logged_in_user_pws.values()
+        print(users_pws)
+        if users_pws.filter(title=searched):
+            print(User_pw.objects.filter(Q(title=searched)).values())
+        else:
+            print("NOT FOUND")
+        # if logged_in_user_pws.objects.filter(title=searched):
+        #     print("FOUND")
+        # else:
+        #     print("NONE")
+    return render(request, "pw_storage/user_password/user_pw_search.html", {'pws': logged_in_user_pws})
 
 
