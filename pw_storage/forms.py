@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 # from django.forms import ModelForm
 from .models import User_pw
 non_allowed_usernames = ['abc']
+PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
 # check for unique email & username
 
 User = get_user_model()
@@ -86,6 +87,13 @@ class LoginForm(forms.Form):
 
 
 class User_pw_form(forms.Form):
-    class Meta:
-        model = User_pw
-        fields = '__all__'
+    
+    title = forms.CharField(widget=forms.TextInput(
+        attrs={
+        "class": "form-control"
+    }))
+    password = forms.CharField(widget=forms.TextInput(
+        attrs={
+        "class": "form-control"
+    }))
+    type = forms.ChoiceField(choices=PW_TYPES, widget=forms.RadioSelect())

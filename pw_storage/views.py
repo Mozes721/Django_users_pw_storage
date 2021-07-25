@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 # Create your views here.
-from .forms import LoginForm, RegisterForm
+from .forms import *
 from .models import User_pw
 
 User = get_user_model()
@@ -60,7 +60,7 @@ def user_pw_all(request):
     if request.user.is_authenticated:
         messages.success(request, "Logged in as %s" % request.user)
     logged_in_user = request.user  
-    logged_in_user_pws = User_pw.objects.filter(user=logged_in_user)
+    logged_in_user_pws = User_pw.objects.filter(user=logged_in_user).order_by('-date')
     if not logged_in_user_pws:
         message = 'Please create a password'
         return render(request, "pw_storage/user_password/user_pw_all.html", {'no_pws': message})
@@ -69,9 +69,21 @@ def user_pw_all(request):
 
 @login_required(login_url=login_page)
 def user_pw_add(request):
+    form = User_pw_form(request.POST or None)
     if request.user.is_authenticated:
-        messages.error(request, "Logged in as %s" % request.user)
-    return render(request, "pw_storage/user_password/user_pw_add.html")
+        messages.success(request, "Logged in as %s" % request.user)
+    logged_in_user = request.user
+    if form.is_valid():
+        title = form.cleaned_data.get("title")
+        password = form.cleaned_data.get("password")
+        type = form.cleaned_data.get("type")
+        try:
+            User_pw.objects.create(title=title, password=password, type=type, user=logged_in_user)
+            messages.success(request, "---Sucesfully added new pw field for your storage---")
+        except Exception as e:
+            raise e
+            
+    return render(request, "pw_storage/user_password/user_pw_add.html", {'form': form})
 
 @login_required(login_url=login_page)
 def user_pw_search(request):

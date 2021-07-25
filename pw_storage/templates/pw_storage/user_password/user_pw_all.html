@@ -37,17 +37,19 @@
       <th scope="col">Title</th>
       <th scope="col">Password</th>
       <th scope="col">Type</th>
+      <th scope="col">Edit</th>
     </tr>
   </thead>
   
     {% for post in pws %}
     <tbody>
       <tr>
-        <td>{{ post.id }}</td>
+        <td>{{ forloop.counter }}</td>
         <td>{{ post.date }}</td>
         <td>{{ post.title }}</td>
         <td>{{ post.password }}</td>
         <td>{{ post.type }}</td>
+        <td>...</td>
       </tr>
     </tbody>
     {% endfor %}
