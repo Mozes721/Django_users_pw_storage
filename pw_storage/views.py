@@ -84,7 +84,7 @@ def user_pw_add(request):
             raise e
             
     return render(request, "pw_storage/user_password/user_pw_add.html", {'form': form})
-
+ 
 @login_required(login_url=login_page)
 def user_pw_search(request):
     if request.user.is_authenticated:
