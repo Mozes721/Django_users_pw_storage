@@ -105,3 +105,19 @@ def user_pw_search(request):
     return render(request, "pw_storage/user_password/user_pw_search.html", {'pws': logged_in_user_pws})
 
 
+@login_required
+def edit(request, task_id):
+    if request.method == "POST":
+        if request.POST['title'] and request.POST['description']:
+            task = Task(pk=task_id)
+            task.title = request.POST['title']
+            task.description = request.POST['description']
+            task.pub_date = timezone.datetime.now()
+            task.completed = False
+            task.user = request.user
+            task.save(pk=task_id)
+            return render(request, 'home/taskdetail.html', {'task':task})
+        else:
+           return render(request, 'home/create.html', {'error':'All fields are required'})
+    else:
+        return render(request, 'home/create.html')
