@@ -9,7 +9,7 @@ from .models import User_pw
 from django.shortcuts import render, get_object_or_404
 
 User = get_user_model()
-
+ 
  
 def home_page(request):
     return render(request, 'pw_storage/home.html')
