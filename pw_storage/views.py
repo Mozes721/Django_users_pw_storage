@@ -111,74 +111,20 @@ def user_pw_search(request):
 
 @login_required
 def edit_post(request, pk):
-    form = User_pw_form()
+    user_post = User_pw.objects.get(id=pk)
+    form = UserUpdateForm(instance=user_post)
+    
+    if request.method == 'POST':
+        form =UserUpdateForm(request.POST, instance=user_post)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    
     context = {'form': form}
 
     return render(request, 'pw_storage/user_password/edit.html', context)
-    post = User_pw.objects.get(pk=key)
-    if request.method == 'POST':
-        form = User_pw_form(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            url = reverse('user_pw_add', kwargs={'key': key})
-            return render(request, 'pw_storage/user_password/edit.html', {'url': url})
-        else:
-            form = User_pw_form(instance=post)
-    else:
-        form = User_pw_form(instance=post)
-    return render(request, 'edit.html', {'form':form, 'post':post})
 
-
-# def edit(request, pk):
-#     obj= get_object_or_404(User_pw, id=pk)
-        
-#     form = UserUpdateForm(request.POST or None, instance= obj)
-#     context= {'form': form}
-
-#     if form.is_valid():
-#         obj= form.save(commit= False)
-
-#         obj.save()
-
-#         messages.success(request, "You successfully updated the pw")
-
-#         context= {'form': form}
-
-#         return render(request, 'pw_storage/user_password/edit.html', context)
-
-#     else:
-#         context= {'form': form,
-#                            'error': 'The form was not updated successfully. Please enter in a title and content'}
-#         return render(request,'pw_storage/user_password/edit.html' , context)
-
-#     form = User_pw_form(request.POST or None)
-#     user_pw = User_pw.objects.get(pk=pk)
-#     if request.method == "POST":
-#         form = User_pw_form(request.POST, id=user_pw)
-#         form.save()
-#     if request.method == 'POST':
-#         edit_form = UserUpdateForm(request.POST, instance=pk)
-#     return render(request, 'pw_storage/user_password/edit.html')
-
-    # obj= get_object_or_404(User_pw, id=task_id)
-        
-    # form = EditForm(request.POST or None, instance= obj)
-    # context= {'form': form}
-
-    # if form.is_valid():
-    #     obj= form.save(commit= False)
-
-    #     obj.save()
-
-    #     messages.success(request, "You successfully updated the pw")
-
-    #     context= {'form': form}
-
-    #     return render(request, 'pw_storage/user_password/edit.html', context)
-
-    # else:
-    #     context= {'form': form,
-    #                        'error': 'The form was not updated successfully. Please enter in a title and content'}
-    #     return render(request,'pw_storage/user_password/edit.html' , context)
-
-  
+def del_pw(request, pk):
+    user_post = User_pw.objects.get(id=pk)
+    context = {'item': user_post}
+    return render(request, 'pw_storage/user_password/delete.html', context)

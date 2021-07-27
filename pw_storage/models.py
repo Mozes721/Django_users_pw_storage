@@ -16,7 +16,7 @@ class User_pw(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
     
     def __str__(self):
-        return str(self.user)
+        return self.title
 
-    def get_absolute_url(self):
-        return reverse('post-detail', kwargs={'pk': self.pk})
+    # def get_absolute_url(self):
+    #     return reverse('post-detail', kwargs={'pk': self.pk})

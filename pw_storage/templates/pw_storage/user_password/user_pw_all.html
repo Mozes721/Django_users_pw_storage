@@ -51,7 +51,7 @@
         <td>{{ post.type }}</td>
         
         <td><a class="btn btn-secondary" href="{% url 'edit' post.id %}">Edit</a>
-          <a class="btn btn-danger" href="#">Delete</a>
+          <a class="btn btn-danger" href="{% url 'delete' post.id %}">Delete</a>
         </td>
       </tr>
     </tbody>

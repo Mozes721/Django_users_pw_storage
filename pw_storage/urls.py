@@ -11,5 +11,6 @@ urlpatterns = [
     path('all_pws/', views.user_pw_all, name="all-page"),
     path('add_pw/', views.user_pw_add, name="add-page"),
     path('search_pw/', views.user_pw_search, name="search-page"),
-    path('edit/<str:pk>/', views.edit_post, name='edit'),
+    path('edit/<str:pk>/', views.edit_post, name="edit"),
+    path('delete/<str:pk>/', views.del_pw, name="delete"),
 ]
