@@ -3,7 +3,7 @@ from django.db.models.deletion import CASCADE
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-
+from django.shortcuts import reverse
 
 User = get_user_model()
 
@@ -17,3 +17,6 @@ class User_pw(models.Model):
     
     def __str__(self):
         return str(self.user)
+
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})

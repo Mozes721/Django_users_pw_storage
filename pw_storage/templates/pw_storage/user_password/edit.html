@@ -10,8 +10,18 @@
 </div>
 {% endif %}
 <br>
-<h1>Register</h1>
+<h1>Edit</h1>
 <br>
- 
+<div class="form-group">
+<form method='POST'>
+        {% for field in form %}
+        <br>
+        {{field}}
+        {% endfor %}
+        <button type='submit'>Update</button>
+</form>
+<br/><br/>
+
+</div>
 
 {% endblock %}

@@ -97,3 +97,8 @@ class User_pw_form(forms.Form):
         "class": "form-control"
     }))
     type = forms.ChoiceField(choices=PW_TYPES, widget=forms.RadioSelect())
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model=User_pw
+        fields=['title','password', 'type']
