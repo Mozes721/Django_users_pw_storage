@@ -160,7 +160,6 @@ def edit_post(request, pk):
 #         edit_form = UserUpdateForm(request.POST, instance=pk)
 #     return render(request, 'pw_storage/user_password/edit.html')
 
-
     # obj= get_object_or_404(User_pw, id=task_id)
         
     # form = EditForm(request.POST or None, instance= obj)
