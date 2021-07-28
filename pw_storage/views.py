@@ -131,6 +131,6 @@ def delete(request, pk):
         user_post.delete()
         return redirect('/')
     
-    context = {'item': user_post}
+    context = {'item': user_post} 
 
     return render(request, 'pw_storage/user_password/delete.html', context)
