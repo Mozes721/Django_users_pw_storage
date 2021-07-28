@@ -49,7 +49,7 @@ def login_page(request):
         else:
             messages.warning(request, 'Please enter the right password!')
     return render(request, "pw_storage/user_account/login.html", {"form": form})
-  
+   
 @login_required(login_url=login_page)
 def logged_out_page(request):
     logout(request)
