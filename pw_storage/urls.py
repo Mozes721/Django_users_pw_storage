@@ -13,4 +13,4 @@ urlpatterns = [
     path('search_pw/', views.user_pw_search, name="search-page"),
     path('edit/<str:pk>/', views.edit_post, name="edit"),
     path('delete/<str:pk>/', views.delete, name="delete"),
-]
+] 
