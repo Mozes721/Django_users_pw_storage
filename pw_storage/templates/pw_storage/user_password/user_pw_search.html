@@ -38,7 +38,7 @@
   {% for post in user_pw %}
     <tbody>
       <tr>
-        <td>{{ post.id }}</td>
+        <td>{{ forloop.counter }}</td>
         <td>{{ post.date }}</td>
         <td>{{ post.title }}</td>
         <td>{{ post.password }}</td>

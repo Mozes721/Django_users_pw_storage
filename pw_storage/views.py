@@ -1,12 +1,11 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-# Create your views here.
 from .forms import *
 from .models import User_pw
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 
 User = get_user_model()
  
@@ -97,7 +96,6 @@ def user_pw_search(request):
     logged_in_user_pws = User_pw.objects.filter(user=logged_in_user)
     if request.method == "POST":
         searched = request.POST.get("password_search", "")
-        # user_pw = logged_in_user_pws.filter(name__contains=searched)
         users_pws = logged_in_user_pws.values()
         if users_pws.filter(title=searched):
             user_pw = User_pw.objects.filter(Q(title=searched)).values()
@@ -124,7 +122,15 @@ def edit_post(request, pk):
 
     return render(request, 'pw_storage/user_password/edit.html', context)
 
-def del_pw(request, pk):
+
+@login_required
+def delete(request, pk):
     user_post = User_pw.objects.get(id=pk)
+    
+    if request.method == 'POST':
+        user_post.delete()
+        return redirect('/')
+    
     context = {'item': user_post}
+
     return render(request, 'pw_storage/user_password/delete.html', context)

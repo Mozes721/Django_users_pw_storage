@@ -1,11 +1,9 @@
 from django import forms
-from django.db import models
 from django.contrib.auth import get_user_model
-# from django.forms import ModelForm
 from .models import User_pw
 non_allowed_usernames = ['abc']
 PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
-# check for unique email & username
+
 
 User = get_user_model()
 
@@ -102,3 +100,4 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model=User_pw
         fields=['title','password', 'type']
+    
