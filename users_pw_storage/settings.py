@@ -70,6 +70,7 @@ TEMPLATES = [
         },
     },
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 WSGI_APPLICATION = 'users_pw_storage.wsgi.application'
 

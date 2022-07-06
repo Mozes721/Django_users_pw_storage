@@ -1,11 +1,10 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from .models import User
 from .models import User_pw
 non_allowed_usernames = ['abc']
 PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
 
 
-User = get_user_model()
 
 class RegisterForm(forms.Form):
 
