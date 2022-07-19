@@ -1,6 +1,6 @@
 from django import forms
 from .models import User
-from .models import User_pw
+from .models import UserPW
 non_allowed_usernames = ['abc']
 PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
 
@@ -83,7 +83,7 @@ class LoginForm(forms.Form):
 
 
 
-class User_pw_form(forms.Form):
+class UserPWForm(forms.Form):
     
     title = forms.CharField(widget=forms.TextInput(
         attrs={
@@ -97,6 +97,6 @@ class User_pw_form(forms.Form):
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
-        model=User_pw
+        model=UserPW
         fields=['title','password', 'type']
     

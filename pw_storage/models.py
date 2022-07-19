@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class User_pw(models.Model):
+class UserPW(models.Model):
     PW_TYPES = [('confidentail', 'confidentail'),('sharable', 'sharable')]
     title = models.CharField(max_length=100)
     password = models.CharField(max_length=50)

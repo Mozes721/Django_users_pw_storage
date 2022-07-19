@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import User_pw
+from .models import UserPW
 
 
 # Register your models here.
-admin.site.register(User_pw)
+admin.site.register(UserPW)
