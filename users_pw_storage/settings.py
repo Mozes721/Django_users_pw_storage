@@ -24,7 +24,7 @@ SECRET_KEY = 'key'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('PORT'), 'localhost']
+ALLOWED_HOSTS = [os.environ.get('HTTP_HOST'), 'localhost']
 
 
 # Application definition
