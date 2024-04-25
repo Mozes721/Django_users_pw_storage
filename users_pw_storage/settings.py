@@ -27,7 +27,7 @@ SECRET_KEY = 'key'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('HTTP_HOST'), 'localhost']
+ALLOWED_HOSTS = ['django-users-pw-storage.onrender.com', 'localhost']
 
 
 # Application definition
