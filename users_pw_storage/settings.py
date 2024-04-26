@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from dotenv import load_dotenv
+import dj_database_url
 from pathlib import Path
 
 load_dotenv()
@@ -27,7 +28,7 @@ SECRET_KEY = 'key'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-users-pw-storage.onrender.com', 'localhost']
+ALLOWED_HOSTS = os.environ.get("HTTP_HOST").split(" ")
 
 
 # Application definition
@@ -82,25 +83,14 @@ WSGI_APPLICATION = 'users_pw_storage.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DATABASE'), 
-        'USER': os.environ.get('USER_NAME'),
-        'PASSWORD': os.environ.get('PASSWORD'),
-        'HOST': os.environ.get('HOST'), 
-        'PORT': os.environ.get('PORT'),
-    }
-}
-else:
-    DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'db.sqlite3',
     }
 }
 
+DATABASES["default"] = dj_database_url.parse(os.environ.get('POSTGRES_DB'))
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
