@@ -45,6 +45,12 @@ INSTALLED_APPS = [
     'bootstrapform',
     'crispy_forms',
     'pw_storage',
+    'corsheaders',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    f'http://{host}' if 'localhost' in host else f'https://{host}'
+    for host in ALLOWED_HOSTS
 ]
 
 MIDDLEWARE = [
@@ -55,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'users_pw_storage.urls'
