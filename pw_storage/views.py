@@ -87,7 +87,7 @@ def user_pw_add(request):
             except Exception as e:
                 raise e
             
-    return render(request, "pw_storage/user_password/UserPW_add.html", {'form': form})
+    return render(request, "pw_storage/user_password/user_pw_add.html", {'form': form})
  
 @login_required(login_url=login_page)
 def user_pw_search(request):
@@ -100,7 +100,7 @@ def user_pw_search(request):
         users_pws = logged_in_user_pws.values()
         if users_pws.filter(title=searched):
             user_pw = UserPW.objects.filter(Q(title=searched)).values()
-            return render(request, "pw_storage/user_password/UserPW_search.html", {'UserPW': user_pw})
+            return render(request, "pw_storage/user_password/user_pw_search.html", {'UserPW': user_pw})
         else:
             messages.error(request, "---YOUR SEARCH RESULT DOESN'T EXIST---")
             print("NOT FOUND")
