@@ -93,19 +93,23 @@ def user_pw_add(request):
 def user_pw_search(request):
     if request.user.is_authenticated:
         messages.success(request, "Logged in as %s" % request.user)
+    
     logged_in_user = request.user  
     logged_in_user_pws = UserPW.objects.filter(user=logged_in_user)
+    
     if request.method == "POST":
         searched = request.POST.get("password_search", "")
-        users_pws = logged_in_user_pws.values()
-        if users_pws.filter(title=searched):
-            user_pw = UserPW.objects.filter(Q(title=searched)).values()
-            return render(request, "pw_storage/user_password/user_pw_search.html", {'UserPW': user_pw})
+        matching_pws = logged_in_user_pws.filter(title=searched)
+        
+        if matching_pws.exists():
+            messages.error(request, "YOUR SEARCH RESULT EXIST")
+            return render(request, "pw_storage/user_password/user_pw_search.html", {'UserPW': matching_pws})
         else:
-            messages.error(request, "---YOUR SEARCH RESULT DOESN'T EXIST---")
+            messages.error(request, "YOUR SEARCH RESULT DOESN'T EXIST")
             print("NOT FOUND")
-
+    
     return render(request, "pw_storage/user_password/user_pw_search.html", {'pws': logged_in_user_pws})
+
 
 
 @login_required
